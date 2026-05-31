@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { db } from './db';
-import { menus, orders, orderItems } from './db/schema';
+import { db } from './db/index.js';
+import { menus, orders, orderItems } from './db/schema.js';
 import { eq, desc } from 'drizzle-orm';
 import 'dotenv/config';
 
@@ -74,9 +74,9 @@ app.get('/api/orders', async (req, res) => {
     const allItems = await db.select().from(orderItems);
     
     // Group items by order
-    const ordersWithItems = allOrders.map(order => ({
+    const ordersWithItems = allOrders.map((order: any) => ({
       ...order,
-      items: allItems.filter(item => item.orderId === order.id)
+      items: allItems.filter((item: any) => item.orderId === order.id)
     }));
     
     res.json(ordersWithItems);
@@ -91,7 +91,7 @@ app.post('/api/orders', async (req, res) => {
     const { id, meja, customerName, total, note, items } = req.body;
     
     // Start transaction
-    await db.transaction(async (tx) => {
+    await db.transaction(async (tx: any) => {
       // Create order
       await tx.insert(orders).values({
         id,

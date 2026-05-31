@@ -1,5 +1,5 @@
-import { db } from './index';
-import { menus } from './schema';
+import { db } from './index.js';
+import { menus } from './schema.js';
 import 'dotenv/config';
 
 const MENU_DATA = {
